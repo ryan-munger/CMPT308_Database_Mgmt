@@ -3,7 +3,7 @@
 # In this course I hope to:
 
 * Come to understand that data has value, and the right answer is
-inDinitely better than a fast answer.
+infinitely better than a fast answer.
 * Reach a solid knowledge of and appreciation for principles and
 foundations of relational and graph database systems.
 * Gain an understanding of relational database concepts, terminology,
