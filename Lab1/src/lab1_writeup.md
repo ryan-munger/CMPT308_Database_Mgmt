@@ -29,8 +29,13 @@ I will be using psql to manage my database instead of pgAdmin4. The screenshot b
 
 ### Part 2: *Data vs Information*
 
-Mini Essay
+Data and information are related but the distinction between them is important. Data refers to 'raw' facts/figures such as numbers and text that on their own do not mean anything. One such example is the set: [12, 25, 15, 33]. Information, (the thing we strive to possess), is data with context added. Context turns data into information and transforms figures into metrics/measurements. The dataset mentioned previously would become information if context such as a unit of measurement or description was added. That set could be temperature data for the month of January in Poughkeepsie.
 
 ### Part 3: *Data Models*
 
-Mini Essay
+*Briefly describe the hierarchical and network pre-relational data models. Explain their shortcomings in relation to the relational model. Considering this, what do you think of XML as a model for data storage?*
+
+Hierarchical data models work by storing data in trees. This creates a hierarchy (obviously). Some critical issues with this type of data representation include duplicate nodes, disconnected nodes, and more complex querying procedures. The network data model, not to be confused with the graph model, allows more flexibility than the H-model and removes the issue of duplicate nodes. The disconnection and query problems still persist though. An even worse implication of these models is that any modifications to the data itself may necessitate changes to your code/queries :(.
+<br>
+<br>
+My thoughts on XML data storage: it is alright I guess. JSON is better in terms of object storage, but I have used XML many times. It is organized, VERY VERBOSE, and can be read/written by many different languages/tooling. I made some gauges for a project I cannot speak about, and this GUI was driven by XML. I have nightmares to this day.
