@@ -1,9 +1,9 @@
-# Database  Lab Report Template
+# Database Lab Report Template
 
 **Course:** Database Management\
 **Lab Number:** *Lab #*\
 **Date:** *YYYY-MM-DD*\
-**Name:** *Your Name*
+**Name:** *Ryan Munger*
 
 ---
 
@@ -24,3 +24,4 @@
 ```sql
 -- Example SQL Query
 SELECT * FROM table_name;
+```
