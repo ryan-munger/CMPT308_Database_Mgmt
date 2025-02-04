@@ -1,5 +1,7 @@
 # CMPT308_Database_Mgmt
 
+# If you are browsing in Git, the markdown file is reccomended for viewing. Otherwise, all writeups are available as a pdf. 
+
 # In this course I hope to:
 
 * Come to understand that data has value, and the right answer is
