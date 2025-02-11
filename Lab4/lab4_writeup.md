@@ -9,19 +9,160 @@
 
 ## 1. Objective
 
-*Provide a brief description of the lab's purpose and learning goals.*
+*To write some interesting SQL queries using subqueries and set operations. Please do
+not use joins; save them for the next assignment!*
 
 ## 2. Lab Setup
 
-*Describe any setup steps, including database configurations, software used, and initial scripts executed.*
+*A fresh CAP database.*
 
 ## 3. Procedure
 
-### Part 1: *Title*
+### Part 1: *Subqueries*
 
-*Explain the steps followed, SQL queries executed, and observations.*
+*Use subqueries to answer the folling questions. Then, use AI and grade its responses.*
 
+1. Get all the People data for people who are customers.
 ```sql
--- Example SQL Query
-SELECT * FROM table_name;
+-- Me
+SELECT * 
+FROM People
+WHERE pid IN (SELECT pid
+			  FROM Customers);
+-- AI
+SELECT * 
+FROM table_name;
+```
+
+2. Get all the People data for people who are agents.
+```sql
+-- Me
+SELECT * 
+FROM People
+WHERE pid IN (SELECT pid
+			  FROM Agents);
+-- AI
+SELECT * 
+FROM table_name;
+```
+
+3. Get all of People data for people who are both customers and agents.
+```sql
+-- Me - queryception, I know I could have used AND
+SELECT * 
+FROM People
+WHERE pid IN (SELECT pid
+			  FROM Customers
+			  WHERE pid IN (SELECT pid
+			  				FROM Agents));
+-- AI
+SELECT * 
+FROM table_name;
+```
+
+4. Get all of People data for people who are neither customers nor agents.
+```sql
+-- Me
+SELECT * 
+FROM People
+WHERE pid NOT IN (SELECT pid FROM Customers)
+  AND pid NOT IN (SELECT pid FROM Agents);
+-- AI
+SELECT * 
+FROM table_name;
+```
+
+5. Get the ID of customers who ordered either product p01 or p03 (or both). List the IDs in order from lowest to highest. Include each ID only once.
+```sql
+-- Me
+SELECT DISTINCT custId
+FROM Orders
+WHERE prodId = 'p01' OR prodId = 'p03'
+Order by custId ASC;
+-- AI
+SELECT * 
+FROM table_name;
+```
+
+6. Get the ID of customers who ordered both products p01 and p03. List the IDs in order from highest to lowest. Include each ID only once.
+```sql
+-- Me
+SELECT DISTINCT custId
+FROM Orders
+WHERE custId IN (SELECT custId
+                 FROM Orders
+                 WHERE prodId = 'p01') 
+  AND custId IN (SELECT custId
+                 FROM Orders
+                 WHERE prodId = 'p03') 
+Order by custId DESC;
+-- AI
+SELECT * 
+FROM table_name;
+```
+
+7. Get the first and last names of agents who sold products p05 or p07 in order by last name from A to Z.
+```sql
+-- Me
+SELECT firstName, lastName
+FROM People
+WHERE pid IN (SELECT pid
+			  FROM Agents
+			  WHERE pid IN (SELECT agentId
+			  				FROM Orders
+			  				WHERE prodId = 'p05' OR prodId = 'p07'))
+Order by lastName ASC;
+-- AI
+SELECT * 
+FROM table_name;
+```
+
+8. Get the home city and birthday of agents booking an order for the customer whose pid is 007, sorted by home city from Z to A.
+```sql
+-- Me
+SELECT homeCity, DOB
+FROM People
+WHERE pid IN (SELECT pid
+			  FROM Agents
+  			  WHERE pid IN (SELECT agentId
+  			  			    FROM Orders
+  			  			    WHERE custId = 7))
+Order by homeCity DESC;
+-- AI
+SELECT * 
+FROM table_name;
+```
+
+9. Get the unique ids of products ordered through any agent who takes at least one order from a customer in Saginaw, sorted by id from highest to lowest. (This is not the same as asking for ids of products ordered by customers in Saginaw.)
+```sql
+-- Me
+SELECT DISTINCT prodId
+FROM Orders
+WHERE agentId IN (SELECT agentId
+				  FROM Orders
+				  WHERE custId IN (SELECT pid
+				  				   FROM People
+				  				   WHERE homeCity = 'Saginaw'))
+Order by prodId DESC;
+-- AI
+SELECT * 
+FROM table_name;
+```
+
+10. Get the last name and home city for all customers who place orders through agents in Regina or Pinner in order by last name from A to Z.
+```sql
+-- Me
+SELECT lastName, homeCity
+FROM People
+WHERE pid IN (SELECT pid
+			  FROM Customers
+			  WHERE pid IN (SELECT custId
+			  				FROM Orders
+			  				WHERE agentId IN (SELECT pid
+			  								  FROM People
+			  								  WHERE homeCity = 'Regina' OR homeCity = 'Pinner')))
+Order by lastName ASC;
+-- AI
+SELECT * 
+FROM table_name;
 ```
