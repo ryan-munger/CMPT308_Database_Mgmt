@@ -7,7 +7,7 @@
 SELECT * 
 FROM People
 WHERE pid IN (SELECT pid
-            FROM Customers);
+              FROM Customers);
 -- AI
 SELECT *
 FROM People
@@ -17,7 +17,7 @@ WHERE pid IN (SELECT pid FROM Customers);
 SELECT * 
 FROM People
 WHERE pid IN (SELECT pid
-			  FROM Agents);
+              FROM Agents);
 -- AI
 SELECT *
 FROM People
@@ -27,9 +27,9 @@ WHERE pid IN (SELECT pid FROM Agents);
 SELECT * 
 FROM People
 WHERE pid IN (SELECT pid
-			  FROM Customers
+              FROM Customers
 			  WHERE pid IN (SELECT pid
-			  				FROM Agents));
+			  			      FROM Agents));
 -- AI
 SELECT *
 FROM People
