@@ -28,7 +28,7 @@ not use joins; save them for the next assignment!*
 SELECT * 
 FROM People
 WHERE pid IN (SELECT pid
-			  FROM Customers);
+              FROM Customers);
 -- AI
 SELECT *
 FROM People
@@ -42,7 +42,7 @@ Grade: 9.9/10: No indents!
 SELECT * 
 FROM People
 WHERE pid IN (SELECT pid
-			  FROM Agents);
+              FROM Agents);
 -- AI
 SELECT *
 FROM People
@@ -56,9 +56,9 @@ Grade 9.9/10
 SELECT * 
 FROM People
 WHERE pid IN (SELECT pid
-			  FROM Customers
-			  WHERE pid IN (SELECT pid
-			  				FROM Agents));
+              FROM Customers
+              WHERE pid IN (SELECT pid
+                            FROM Agents));
 -- AI
 SELECT *
 FROM People
@@ -127,10 +127,10 @@ Grade: 9/10 I would have preferred to see a subquery
 SELECT firstName, lastName
 FROM People
 WHERE pid IN (SELECT pid
-			  FROM Agents
-			  WHERE pid IN (SELECT agentId
-			  				FROM Orders
-			  				WHERE prodId = 'p05' OR prodId = 'p07'))
+              FROM Agents
+              WHERE pid IN (SELECT agentId
+                            FROM Orders
+                            WHERE prodId = 'p05' OR prodId = 'p07'))
 Order by lastName ASC;
 -- AI
 SELECT firstName, lastName
@@ -146,10 +146,10 @@ Grade: 9.9/10 where are Alan's indents?
 SELECT homeCity, DOB
 FROM People
 WHERE pid IN (SELECT pid
-			  FROM Agents
-  			  WHERE pid IN (SELECT agentId
-  			  			    FROM Orders
-  			  			    WHERE custId = 7))
+              FROM Agents
+              WHERE pid IN (SELECT agentId
+                            FROM Orders
+                            WHERE custId = 7))
 Order by homeCity DESC;
 -- AI
 SELECT homeCity, DOB
@@ -165,10 +165,10 @@ Grade: 10/10: It did better than me as I did not need to go through the agents t
 SELECT DISTINCT prodId
 FROM Orders
 WHERE agentId IN (SELECT agentId
-				  FROM Orders
-				  WHERE custId IN (SELECT pid
-				  				   FROM People
-				  				   WHERE homeCity = 'Saginaw'))
+                  FROM Orders
+                  WHERE custId IN (SELECT pid
+                                   FROM People
+                                   WHERE homeCity = 'Saginaw'))
 Order by prodId DESC;
 -- AI
 SELECT DISTINCT prodId
@@ -184,12 +184,12 @@ Grade: 10/10: So it goes through the Agents table as soon as I don't?
 SELECT lastName, homeCity
 FROM People
 WHERE pid IN (SELECT pid
-			  FROM Customers
-			  WHERE pid IN (SELECT custId
-			  				FROM Orders
-			  				WHERE agentId IN (SELECT pid
-			  								  FROM People
-			  								  WHERE homeCity = 'Regina' OR homeCity = 'Pinner')))
+              FROM Customers
+              WHERE pid IN (SELECT custId
+                            FROM Orders
+                            WHERE agentId IN (SELECT pid
+                                              FROM People
+                                              WHERE homeCity = 'Regina' OR homeCity = 'Pinner')))
 Order by lastName ASC;
 -- AI
 SELECT lastName, homeCity

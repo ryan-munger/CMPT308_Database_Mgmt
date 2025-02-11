@@ -28,8 +28,8 @@ SELECT *
 FROM People
 WHERE pid IN (SELECT pid
               FROM Customers
-			  WHERE pid IN (SELECT pid
-			  			      FROM Agents));
+              WHERE pid IN (SELECT pid
+                            FROM Agents));
 -- AI
 SELECT *
 FROM People
@@ -82,10 +82,10 @@ ORDER BY custId DESC;
 SELECT firstName, lastName
 FROM People
 WHERE pid IN (SELECT pid
-			  FROM Agents
-			  WHERE pid IN (SELECT agentId
-			  				FROM Orders
-			  				WHERE prodId = 'p05' OR prodId = 'p07'))
+              FROM Agents
+              WHERE pid IN (SELECT agentId
+                            FROM Orders
+                            WHERE prodId = 'p05' OR prodId = 'p07'))
 Order by lastName ASC;
 -- AI
 SELECT firstName, lastName
@@ -97,10 +97,10 @@ ORDER BY lastName ASC;
 SELECT homeCity, DOB
 FROM People
 WHERE pid IN (SELECT pid
-			  FROM Agents
-  			  WHERE pid IN (SELECT agentId
-  			  			    FROM Orders
-  			  			    WHERE custId = 7))
+              FROM Agents
+              WHERE pid IN (SELECT agentId
+                            FROM Orders
+                            WHERE custId = 7))
 Order by homeCity DESC;
 -- AI
 SELECT homeCity, DOB
@@ -112,10 +112,10 @@ ORDER BY homeCity DESC;
 SELECT DISTINCT prodId
 FROM Orders
 WHERE agentId IN (SELECT agentId
-				  FROM Orders
-				  WHERE custId IN (SELECT pid
-				  				   FROM People
-				  				   WHERE homeCity = 'Saginaw'))
+                  FROM Orders
+                  WHERE custId IN (SELECT pid
+                                   FROM People
+                                   WHERE homeCity = 'Saginaw'))
 Order by prodId DESC;
 -- AI
 SELECT DISTINCT prodId
@@ -127,12 +127,12 @@ ORDER BY prodId DESC;
 SELECT lastName, homeCity
 FROM People
 WHERE pid IN (SELECT pid
-			  FROM Customers
-			  WHERE pid IN (SELECT custId
-			  				FROM Orders
-			  				WHERE agentId IN (SELECT pid
-			  								  FROM People
-			  								  WHERE homeCity = 'Regina' OR homeCity = 'Pinner')))
+              FROM Customers
+              WHERE pid IN (SELECT custId
+                            FROM Orders
+                            WHERE agentId IN (SELECT pid
+                                              FROM People
+                                              WHERE homeCity = 'Regina' OR homeCity = 'Pinner')))
 Order by lastName ASC;
 -- AI
 SELECT lastName, homeCity
