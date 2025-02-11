@@ -7,7 +7,7 @@
 SELECT * 
 FROM People
 WHERE pid IN (SELECT pid
-			  FROM Customers);
+    FROM Customers);
 -- AI
 SELECT *
 FROM People
