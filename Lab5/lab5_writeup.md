@@ -57,8 +57,12 @@ Grade:
 4. Show the first name of customers who have never placed an order. Use subqueries.
 ```sql
 -- Me
-SELECT * 
-FROM table_name;
+SELECT firstName 
+FROM People
+WHERE pid IN (SELECT pid 
+			  FROM Customers
+			  WHERE pid NOT IN (SELECT custId
+								FROM Orders));
 -- AI
 SELECT *
 FROM table_name;
@@ -111,7 +115,20 @@ Grade:
 
 9. Show the name and id of all Products ordered through any Agent who booked at least one order for a Customer in Oyster Bay, sorted by product name from A to Z. You can use joins or subqueries. Better yet, impress me by doing it both ways.
 ```sql
--- Me
+-- Me: Subqueries
+SELECT name, prodid
+FROM Products 
+WHERE prodid IN (SELECT prodid
+				 FROM Orders
+				 WHERE agentId IN (SELECT agentId 
+								   FROM Orders
+								   WHERE custId IN (SELECT pid
+													FROM People
+													WHERE homeCity = 'Oyster Bay')))
+Order by name ASC;
+
+
+-- Me: Joins
 SELECT * 
 FROM table_name;
 -- AI
