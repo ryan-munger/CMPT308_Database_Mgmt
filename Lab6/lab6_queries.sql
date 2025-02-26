@@ -1,0 +1,57 @@
+-- Q1: Display the cities that makes the most different kinds of products. Experiment with the rank() function
+-- Me
+
+-- AI
+
+-- Q2: Display the names of products whose priceUSD is less than 1% of the average priceUSD, in alphabetical order. from A to Z
+-- Me
+
+-- AI
+
+-- Q3: Display the customer last name, product id ordered, and the totalUSD for all orders made in March of any year, sorted by totalUSD from low to high.
+-- Me
+SELECT p.lastName, o.prodId, o.totalUSD
+FROM Orders o INNER JOIN People p ON p.pid = o.custId
+WHERE extract(month from o.dateOrdered) = 3 
+ORDER BY o.totalUSD ASC;
+-- AI
+
+-- Q4: Display the last name of all customers (in reverse alphabetical order) and their total ordered by customer, and nothing more. Use coalesce to avoid showing NULL totals.
+-- Me
+SELECT p.lastName, COALESCE(SUM(o.quantityOrdered), 0) AS totalOrdered
+FROM People p INNER JOIN Customers c ON c.pid = p.pid
+              LEFT OUTER JOIN Orders o ON o.custId = c.pid 
+GROUP BY p.lastName
+ORDER BY p.lastName DESC;
+-- AI
+
+-- Q5: Display the names of all customers who bought products from agents based in Regina along with the names of the products they ordered, and the names of the agents who sold it to them.
+-- Me
+SELECT pc.firstName as custFirstName, pc.lastName as custLastName, pa.firstName as agentFirstName, pa.lastName as agentLastName, pr.name as productName
+FROM Orders o INNER JOIN People pa ON o.agentId = pa.pid
+              INNER JOIN People pc ON o.custId = pc.pid
+              INNER JOIN Products pr ON o.prodId = pr.prodId
+WHERE pa.homeCity = 'Regina';
+-- AI
+
+-- Q6: Write a query to check the accuracy of the totalUSD column in the Orders table. This means calculating Orders.totalUSD from data in other tables and comparing those values to the values in Orders.totalUSD. Display all rows in Orders where Orders.totalUSD is incorrect, if any. If there are any incorrect values, explain why they are wrong. Round to exactly two decimal places.
+-- Me
+
+-- AI
+
+-- Q7: Display the first and last name of all customers who are also agents
+-- Me
+SELECT p.firstName, p.lastName
+FROM People p INNER JOIN Agents a ON p.pid = a.pid
+              INNER JOIN Customers c ON p.pid = c.pid;
+-- AI
+
+-- Q8: Create a VIEW of all Customer and People data called PeopleCustomers. Then another VIEW of all Agent and People data called PeopleAgents. Then select * from each of them to test them
+-- Me
+
+-- AI
+
+-- Q9: Display the first and last name of all customers who are also agents, this time using the views you created
+-- Me
+
+-- AI
