@@ -50,7 +50,7 @@ Grade: 9/10, defaulting again I see
 -- Me
 SELECT p.*, a.*
 FROM People p INNER JOIN Agents a on p.pid    = a.pid
-              INNER JOIN Customers c on p.pid = c.pid;
+			  INNER JOIN Customers c on p.pid = c.pid;
 -- AI
 SELECT p.*, a.*
 FROM People p
@@ -64,10 +64,14 @@ Grade: 9/10; I see a pattern here
 -- Me
 SELECT firstName 
 FROM People
-WHERE pid IN (SELECT pid 
+WHERE pid IN (
+			  SELECT pid 
 			  FROM Customers
-			  WHERE pid NOT IN (SELECT custId
-								FROM Orders));
+			  WHERE pid NOT IN (
+								SELECT custId
+								FROM Orders
+							   )
+			 );
 -- AI
 SELECT firstName
 FROM People
@@ -81,7 +85,7 @@ Grade: 9.5/10, better formatting could be done here
 -- Me
 SELECT p.firstName
 FROM People p INNER JOIN Customers c on p.pid = c.pid
-	          LEFT OUTER JOIN Orders o on c.pid = o.custId
+			  LEFT OUTER JOIN Orders o on c.pid = o.custId
 WHERE o.custId is NULL;
 -- AI
 SELECT p.firstName
@@ -97,7 +101,7 @@ Grade: 9.5/10; Neatness counts!
 -- Me
 SELECT DISTINCT a.pid, a.commissionPct as cPct
 FROM Agents a INNER JOIN Orders o on a.pid = o.agentId
-              INNER JOIN Customers c on o.custId = 007
+			  INNER JOIN Customers c on o.custId = 007
 ORDER BY cPct DESC;
 -- AI
 SELECT a.pid, a.commissionPct
@@ -113,8 +117,8 @@ Grade: 9.5/10; I chose distinct as there was no reason to list an Agent more tha
 -- Me
 SELECT DISTINCT p.lastName, p.homeCity, a.commissionPct as cPct 
 FROM People p INNER JOIN Agents a on p.pid = a.pid
-	          INNER JOIN Orders o on a.pid = o.agentId
-              INNER JOIN Customers c on o.custId = 001
+			  INNER JOIN Orders o on a.pid = o.agentId
+			  INNER JOIN Customers c on o.custId = 001
 ORDER BY cPct DESC;
 -- AI
 SELECT p.lastName, p.homeCity, a.commissionPct
@@ -131,13 +135,19 @@ Grade: 9.5/10; I chose distinct as there was no reason to list an Agent more tha
 -- Me
 SELECT p.lastName, p.homeCity 
 FROM People p INNER JOIN Customers c on p.pid = c.pid
-WHERE p.homeCity IN (SELECT city
+WHERE p.homeCity IN (
+					 SELECT city
 					 FROM Products
 					 GROUP BY city
-					 HAVING COUNT(prodId) = (SELECT MIN(num_prod)
-					 						 FROM (SELECT COUNT(prodId) as num_prod
-											  	   FROM Products
-												   GROUP BY city)));
+					 HAVING COUNT(prodId) = (
+											 SELECT MIN(num_prod)
+											 FROM (
+												   SELECT COUNT(prodId) as num_prod
+												   FROM Products
+												   GROUP BY city
+												  )
+											)
+					);
 -- AI
 SELECT p.lastName, p.homeCity
 FROM People p
@@ -164,13 +174,19 @@ Grade: 10/10. Nice formatting. I'm not sure what the 'AS counts' is for though. 
 -- Me: Subqueries
 SELECT name, prodid
 FROM Products 
-WHERE prodid IN (SELECT prodid
+WHERE prodid IN (
+				 SELECT prodid
 				 FROM Orders
-				 WHERE agentId IN (SELECT agentId 
-								   FROM Orders
-								   WHERE custId IN (SELECT pid
-													FROM People
-													WHERE homeCity = 'Oyster Bay')))
+				 WHERE agentId IN (
+									SELECT agentId 
+									FROM Orders
+									WHERE custId IN (
+													 SELECT pid
+													 FROM People
+													 WHERE homeCity = 'Oyster Bay'
+													)
+								  )
+				)
 ORDER BY name ASC;
 -- AI: Subqueries
 SELECT name, prodId
