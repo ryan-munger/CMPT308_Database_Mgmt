@@ -23,8 +23,26 @@
 
 1. Display the cities that makes the most different kinds of products. Experiment with the rank() function
 ```sql
--- Me
-QUERY
+-- Me: Intuition
+SELECT city
+FROM Products
+GROUP BY city
+HAVING COUNT(*) = (
+                    SELECT MAX(count) 
+                    FROM (
+                          SELECT COUNT(*) AS count 
+                          FROM Products 
+                          GROUP BY city
+                         ) 
+                  );
+-- Me: Rank()
+SELECT city
+FROM (
+      SELECT city, COUNT(*) AS count, RANK() OVER (ORDER BY COUNT(*) DESC) AS rank
+      FROM Products
+      GROUP BY city
+     ) 
+WHERE rank = 1;
 -- AI
 QUERY
 ```
@@ -33,7 +51,11 @@ Grade:
 2. Display the names of products whose priceUSD is less than 1% of the average priceUSD, in alphabetical order. from A to Z
 ```sql
 -- Me
-QUERY
+SELECT name
+FROM Products WHERE priceUSD < ( 
+                                SELECT AVG(priceUSD) * 0.01
+                                FROM Products
+                               );
 -- AI
 QUERY
 ```
@@ -80,7 +102,11 @@ Grade:
 6. Write a query to check the accuracy of the totalUSD column in the Orders table. This means calculating Orders.totalUSD from data in other tables and comparing those values to the values in Orders.totalUSD. Display all rows in Orders where Orders.totalUSD is incorrect, if any. If there are any incorrect values, explain why they are wrong. Round to exactly two decimal places.
 ```sql
 -- Me
-QUERY
+-- Orders 1017 anad 1024 appear to be wrong due to a mistype. Order 1026 is wrong because they mistakenly used Customer 10's discountPct (10.01%) instead of Customer 7's (2%).
+SELECT o.*, ROUND(o.quantityOrdered * pr.priceUSD * (1 - (c.discountPct * .01)), 2) as correctTotal
+FROM Orders o INNER JOIN Products pr ON o.prodId = pr.prodId
+              INNER JOIN Customers c ON c.pid = o.custId
+WHERE o.totalUSD != ROUND(o.quantityOrdered * pr.priceUSD * (1 - (c.discountPct * .01)), 2);
 -- AI
 QUERY
 ```
@@ -100,7 +126,38 @@ Grade:
 8. Create a VIEW of all Customer and People data called PeopleCustomers. Then another VIEW of all Agent and People data called PeopleAgents. Then select * from each of them to test them
 ```sql
 -- Me
-QUERY
+-- I won't be losing any bets!!
+CREATE VIEW PeopleCustomers AS
+SELECT 
+    c.pid,
+    c.paymentTerms,
+    c.discountPct,
+    p.prefix,
+    p.firstName,
+    p.lastName,
+    p.suffix,
+    p.homeCity,
+    p.DOB
+FROM Customers c INNER JOIN People p ON p.pid = c.pid;
+
+SELECT * 
+FROM PeopleCustomers;
+
+CREATE VIEW PeopleAgents AS
+SELECT 
+    a.pid,
+    a.paymentTerms,
+    a.commissionPct,
+    p.prefix,
+    p.firstName,
+    p.lastName,
+    p.suffix,
+    p.homeCity,
+    p.DOB
+FROM Agents a INNER JOIN People p ON p.pid = a.pid;
+
+SELECT * 
+FROM PeopleAgents;
 -- AI
 QUERY
 ```
@@ -109,7 +166,8 @@ Grade:
 9. Display the first and last name of all customers who are also agents, this time using the views you created
 ```sql
 -- Me
-QUERY
+SELECT pc.firstName, pc.lastName
+FROM PeopleCustomers pc INNER JOIN PeopleAgents pa ON pa.pid = pc.pid;
 -- AI
 QUERY
 ```
@@ -117,4 +175,4 @@ Grade:
 
 10. Compare your SQL in #7 (no views) and #9 (using views). The output is the same. How does that work? What is the database server doing internally when it processes the #9 query?
 
-11. [Bonus] What’s the difference between a LEFT OUTER JOIN and a RIGHT OUTER JOIN? Give example queries in SQL to demonstrate. (Feel free to use the CAP database to make your points here.
+11. [Bonus] What’s the difference between a LEFT OUTER JOIN and a RIGHT OUTER JOIN? Give example queries in SQL to demonstrate. (Feel free to use the CAP database to make your points here).
