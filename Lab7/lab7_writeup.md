@@ -54,7 +54,7 @@ To get his data in 1NF, we need to ensure each field has an atomic value and ens
 <br></br>
 3. **What is the primary key?**
 
-Unfortunately, TagNumber alone is not a primary key. Instead, using only the data present in the table, I would select a combination of PackageID and TagNumber to be our primary key as InstallDate and SoftwareCostUSD are certainly not unique. 
+Unfortunately, TagNumber alone is not a primary key as there are multiple installations for the same computer. Instead, using only the data present in the table, I would select a combination of PackageID and TagNumber to be our primary key to uniquely identify each installation. 
 
 ### Part 2:
 *Add two columns of new data: one column for software package name (e.g.,
@@ -62,7 +62,8 @@ Zork, Portal, etc.) and one for computer model (e.g., IBM, Apple, etc.). Be sure
 new data is consistent with the original data. Do not add any additional columns.*
 
 \
-4. **Display the new table.**
+4. **Display the new table.** \
+We need to ensure that the computer model is the same for all instances of a specific TagNumber and that PackageName is the same for all instances of a specific PackageID.
 
 | PackageID | TagNumber | InstallDate | SoftwareCostUSD | PackageName | ComputerModel |
 |-----------|----------|-------------|-----------|---------|--------|
@@ -74,10 +75,10 @@ new data is consistent with the original data. Do not add any additional columns
 | WP08      | 37691    | 06-15-2005   | 227.50   | Tsiram  | Lenovo |
 | WP08      | 57222    | 05-27-2005   | 170.24   | Tsiram  | MSI   |
 | WP09      | 59836    | 10-30-2005   | 35.00    | Snake  | Acer   |
-| WP09      | 77740    | 05-27-2005   | 35.00    | Snake  | HP     |
+| WP09      | 77740    | 05-27-2005   | 35.00    | Snake  | HP     | 
 
-\
-5. **Identify and document all functional dependencies.**
+
+.1. **Identify and document all functional dependencies.**
 
 PackageID → PackageName
 
@@ -93,7 +94,7 @@ TagNumber → ComputerModel
 
 (PackageID, TagNumber) → InstallDate, SoftwareCostUSD
 
-    The combination of PackageID and TagNumber is this table's primary key.
+    The combination of PackageID and TagNumber is the primary key.
 
 PackageName !→ PackageID 
 
@@ -149,4 +150,5 @@ It is 3NF because:
 It is BCNF because all functional dependencies originate from a superkey.
 
 \
-10. **Draw a beautiful E/R diagram using LucidChart. (Students can get free accounts.)**
+10.  **Draw a beautiful E/R diagram using LucidChart.**
+![ER Diagram](ER-Diagram.png)
