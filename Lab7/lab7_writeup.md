@@ -1,4 +1,4 @@
-# Database Lab Report 6
+# Database Lab Report 7
 
 **Course:** Database Management\
 **Lab Number:** *Lab #7*\
@@ -77,8 +77,8 @@ We need to ensure that the computer model is the same for all instances of a spe
 | WP09      | 59836    | 10-30-2005   | 35.00    | Snake  | Acer   |
 | WP09      | 77740    | 05-27-2005   | 35.00    | Snake  | HP     | 
 
-
-.1. **Identify and document all functional dependencies.**
+\
+5. **Identify and document all functional dependencies.**
 
 PackageID → PackageName
 
