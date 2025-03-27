@@ -150,5 +150,6 @@ It is 3NF because:
 It is BCNF because all functional dependencies originate from a superkey.
 
 \
-10.  **Draw a beautiful E/R diagram using LucidChart.**
+10.  **Draw a beautiful E/R diagram using LucidChart.** \
+We made a many-many relationship (many computers to many packages) via the installations table!
 ![ER Diagram](ER-Diagram.png)
