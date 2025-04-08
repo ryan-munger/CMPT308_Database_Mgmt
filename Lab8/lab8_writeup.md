@@ -115,11 +115,15 @@ PID → FirstName, LastName, SpouseFirst, SpouseLast, Street, Apt_PO, City, Stat
 
 Reasoning: PID, the primary key, uniquely identifies each person as well as determines all attributes of that person.
 
+<br>
+
 **Actors Table:**
 
 PID → DOB, HairColor, EyeColor, Height_in, Weight_lbs, FavColor, SAG_Anniversary
         
 Reasoning: PID, the primary key (which is also a foreign key referencing People), uniquely identifies actors and determines all of their attributes.
+
+<br> 
 
 **Directors Table:**
 
@@ -127,17 +131,23 @@ PID → FilmSchool, DG_Anniversary, FavLensMaker
         
 Reasoning: PID, the primary key (which is also a foreign key referencing People) uniquely identifies each director and all of their attributes.
 
+<br> 
+
 **Movies Table:**
 
 MovieID → Title, ReleaseYr, MPAA_Num, DomesticSalesUSD, ForeignSalesUSD, DVDSalesUSD
         
 Reasoning: MovieID, the primary key, uniquely identifies each movie as well as determines all other attributes.
 
+<br> 
+
 **MovieActors Table:**
 
 MovieID, PID → *Nothing*
 
 Reasoning: The combination of MovieID and PID (together they make the primary key) uniquely identifies the relationship between a movie and an actor. There are no other attributes present.
+
+<br> 
 
 **MovieDirectors Table:**
 
