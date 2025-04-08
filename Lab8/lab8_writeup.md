@@ -41,7 +41,6 @@ favorite lens maker
 ​1.  **Create a fully decorated and aesthetically beautiful E/R diagram**
 ![ER Diagram](ER-Diagram.png)
 
-
 \
 2. **Write SQL create statements for each table**
 
