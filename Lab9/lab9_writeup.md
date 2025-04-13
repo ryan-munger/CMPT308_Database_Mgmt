@@ -34,7 +34,7 @@
 ### Part 1:
 *Build this database. You must create a relational database in at least 3NF (even better - BCNF).* 
 
-​1.  **List the functional dependencies for each table.**
+**​1. List the functional dependencies for each table.**
 
 **People Table:**
 
@@ -54,9 +54,9 @@ Reasoning: CoachID, the primary key (which is also a foreign key referencing PID
 
 **Players Table:**
 
-PlayerID → TeamID
+PlayerID → TeamID, DOB
 
-Reasoning: PlayerID, the primary key (which is also a foreign key referencing PID from the people table) uniquely identifies each player and what team they are on (nullable).
+Reasoning: PlayerID, the primary key (which is also a foreign key referencing PID from the people table) uniquely identifies each player, their age, and what team they are on (nullable).
 
 <br>
 
@@ -86,16 +86,17 @@ Reasoning: AgeGroupID, the primary key, uniquely identifies each age group, its 
 
 **Other Constraints**
 
-1. Players should be within the age range of the ageGroup in which their team plays (we do not currently store their age)
-2. A team can only have one head coach
+1. Players must be within the age range of the ageGroup in which their team plays.
+2. A team can only have one head coach.
 3. A coach can coach several teams only when the age groups for those teams are different.
+4. TeamCoaches' rows must be unique. 
 
 \
-2. **Draw a fully annotated E/R diagram using LucidChart that illustrates the Platonic ideal of beautiful and correct relational database design.**
+**2. Draw a fully annotated E/R diagram using LucidChart that illustrates the Platonic ideal of beautiful and correct relational database design.**
 ![ER Diagram](ER-Diagram.png)
 
 \
-3. **Convince me that your database is in 3NF (or even better, in BCNF).**
+**3. Convince me that your database is in 3NF (or even better, in BCNF).**
 
 * This database is 1NF because all fields are atomic. 
 * This database is 2NF because there are no partial dependencies (all non-key attributes are fully dependent on the whole primary key - we saw this when listing functional dependencies). 
