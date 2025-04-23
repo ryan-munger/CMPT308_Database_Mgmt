@@ -21,12 +21,12 @@ Fetch all from results;
 
 -- get immediate prereqs for course number
 -- returning as table to be cool
-CREATE OR REPLACE FUNCTION get_prereqs_for(check_course int) 
-RETURNS TABLE(prereq int) AS
+CREATE OR REPLACE FUNCTION get_prereqs_for(check_course int)
+RETURNS TABLE(course int, prereq int) AS
 $$
 BEGIN
   RETURN QUERY
-    SELECT prereqnum
+    SELECT coursenum, prereqnum
     FROM prerequisites
     WHERE coursenum = check_course;
 END;
@@ -47,7 +47,7 @@ DECLARE
    resultset    REFCURSOR := $2;
 BEGIN
   OPEN resultset FOR
-    SELECT coursenum
+    SELECT prereqnum, coursenum
     FROM prerequisites
     WHERE prereqnum = check_course;
   RETURN resultset;
@@ -71,21 +71,21 @@ $$
 BEGIN
   RETURN QUERY
   WITH RECURSIVE all_prereqs(course, prereq) AS (
-    SELECT coursenum, prereqnum
-    FROM prerequisites
-    WHERE coursenum = check_course
+    -- Base case
+    SELECT * FROM get_prereqs_for(check_course)
 
     UNION
 
+    -- Recursive case
     SELECT p.coursenum, p.prereqnum
     FROM prerequisites p
     INNER JOIN all_prereqs ap ON p.coursenum = ap.prereq
   )
   SELECT * FROM all_prereqs;
 END;
-$$ 
+$$
 LANGUAGE plpgsql;
 
 -- Test
 SELECT * 
-FROM get_all_prereqs(499);
+FROM jedi_get_all_prereqs(499);
