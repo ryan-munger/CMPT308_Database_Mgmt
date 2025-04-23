@@ -20,7 +20,7 @@
 ### Part 1:
 *Write two functions (stored procedures) that take an integer course number as their only parameter:* 
 
-**​1. Function PreReqsFor(courseNum)**
+**​1. Function PreReqsFor(courseNum)** \
 *Returns the immediate prerequisites for the passed-in course number*
 ```sql
 -- returning as table to be cool
@@ -41,7 +41,7 @@ SELECT *
 FROM get_prereqs_for(499);
 ```
 
-**2. Function IsPreReqFor(courseNum)**
+**2. Function IsPreReqFor(courseNum)** \
 *Returns the courses for which the passed-in course number is an immediate pre-requisite.*
 ```sql
 -- trying refcursor now
@@ -67,7 +67,7 @@ FETCH all FROM results;
 COMMIT;
 ```
 
-**3. Optional Recursive Challenge**
+**3. Optional Recursive Challenge** \
 *Demonstrate Jedi-level skills and write a third, recursive, function that takes a passed-in course number and generates all of its prerequisites. Uses the first two functions you wrote and recursion.*
 ```sql
 CREATE OR REPLACE FUNCTION jedi_get_all_prereqs(check_course INT)
