@@ -88,7 +88,7 @@ CREATE TABLE Weapons (
 -- SkinItems table
 CREATE TABLE SkinItems (
     SkinItemID INT PRIMARY KEY,
-    CaseID INT NOT NULL,
+    CaseID INT,
     ItemID INT NOT NULL,
     ItemName TEXT NOT NULL,
     Wear TEXT NOT NULL CHECK (Wear IN ('Factory New', 'Minimal Wear', 'Field-Tested', 'Well-Worn', 'Battle-Scarred')),

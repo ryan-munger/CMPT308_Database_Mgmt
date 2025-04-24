@@ -60,6 +60,52 @@ WHERE TransID = 908;
 SELECT * FROM Inventories; -- check state after
 
 
+-- Ensure buyer has the money to purchase the item
+-- Transfer the money
+CREATE OR REPLACE FUNCTION transfer_balance()
+RETURNS TRIGGER AS 
+$$
+BEGIN
+    IF NOT EXISTS (
+        SELECT 1
+        FROM SteamUsers
+        WHERE SteamID = NEW.BuyerID AND BalanceUSD >= NEW.PriceUSD
+    ) THEN
+        RAISE EXCEPTION 'Buyer % does not have sufficient funds to purchase Item % (Price: %USD, Balance: %USD).',
+                        NEW.BuyerID, NEW.ItemID, NEW.PriceUSD, (SELECT BalanceUSD FROM SteamUsers WHERE SteamID = NEW.BuyerID);
+    END IF;
+
+    -- Add the purchase amount minus steam fee to the seller's balance
+    UPDATE SteamUsers
+    SET BalanceUSD = BalanceUSD + ((NEW.PriceUSD / 1.15) - 0.01) 
+    WHERE SteamID = NEW.SellerID;
+
+    -- Remove funds from buyer
+    UPDATE SteamUsers
+    SET BalanceUSD = BalanceUSD - NEW.PriceUSD 
+    WHERE SteamID = NEW.BuyerID;
+
+    RETURN NEW;
+END;
+$$ 
+LANGUAGE plpgsql;
+
+CREATE TRIGGER transfer_funds
+BEFORE INSERT OR UPDATE ON MarketTransactions
+FOR EACH ROW
+EXECUTE FUNCTION transfer_balance();
+
+-- Test
+-- Fail due to funds
+INSERT INTO MarketTransactions (TransID, ItemID, BuyerID, SellerID, PriceUSD, ListedAt, SoldAt) VALUES
+(909, 707, 801, 805, 99999, '2025-04-10 18:00:00+00', '2025-04-11 10:30:00+00');
+-- Move Funds
+SELECT steamid, username, balanceUSD FROM SteamUsers; -- before
+INSERT INTO MarketTransactions (TransID, ItemID, BuyerID, SellerID, PriceUSD, ListedAt, SoldAt) VALUES
+(909, 707, 801, 805, 10, '2025-04-10 18:00:00+00', '2025-04-11 10:30:00+00');
+SELECT steamid, username, balanceUSD FROM SteamUsers; -- after
+
+
 -- Friends cannot create A B and B A friendship for no reason
 CREATE OR REPLACE FUNCTION prevent_duplicate_friendships()
 RETURNS TRIGGER AS 
