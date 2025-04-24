@@ -42,7 +42,7 @@ CREATE TABLE Stickers (
     StickerID INT PRIMARY KEY,
     StickerName TEXT NOT NULL,
     Rarity TEXT NOT NULL CHECK (Rarity IN ('Base Grade', 'Medium Grade', 'High Grade', 'Remarkable', 'Exotic', 'Extraordinary', 'Contraband')),
-    Film TEXT NOT NULL CHECK (Rarity IN ('Foil', 'Glitter', 'Gold', 'Holo', 'Lenticular', 'Paper')),
+    Film TEXT NOT NULL CHECK (Film IN ('Foil', 'Glitter', 'Gold', 'Holo', 'Lenticular', 'Paper')),
     CapsuleID INT,
     FOREIGN KEY (CapsuleID) REFERENCES Capsules(CapsuleID)
 );
@@ -87,7 +87,7 @@ CREATE TABLE Weapons (
 -- SkinItems table
 CREATE TABLE SkinItems (
     SkinItemID INT PRIMARY KEY,
-    CaseID INT,
+    CaseID INT NOT NULL,
     ItemID INT NOT NULL,
     ItemName TEXT NOT NULL,
     Wear TEXT NOT NULL CHECK (Wear IN ('Factory New', 'Minimal Wear', 'Field-Tested', 'Well-Worn', 'Battle-Scarred')),
