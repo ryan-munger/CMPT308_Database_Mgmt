@@ -72,3 +72,49 @@ WHERE s.IsStatTrak = TRUE
 GROUP BY w.WeaponName;
 
 SELECT * FROM avg_stattrak_kills_by_weapon;
+
+
+-- daily trans value -- credit: claude helped with the date truncation
+CREATE VIEW daily_transactions AS
+SELECT 
+    DATE_TRUNC('day', mt.SoldAt)::DATE AS sale_date,
+    COUNT(*) AS daily_trans,
+    SUM(mt.PriceUSD) AS daily_vol,
+    AVG(mt.PriceUSD) AS avg_price,
+    MAX(mt.PriceUSD) AS highest_sale,
+    COUNT(DISTINCT mt.BuyerID) AS unique_buyers,
+    COUNT(DISTINCT mt.SellerID) AS unique_sellers
+FROM MarketTransactions mt
+WHERE mt.SoldAt >= CURRENT_DATE - INTERVAL '30 days' -- cool!!
+GROUP BY DATE_TRUNC('day', mt.SoldAt)::DATE
+ORDER BY sale_date DESC;
+
+SELECT * FROM daily_transactions;
+
+
+-- shows how many skins each weapon has avail for it
+CREATE VIEW count_weapon_skins AS
+SELECT 
+    w.WeaponName,
+    COUNT(si.SkinItemID) AS skin_count
+FROM Weapons w
+    INNER JOIN SkinItems si ON w.ItemID = si.ItemID
+GROUP BY  w.WeaponName
+ORDER BY skin_count DESC;
+
+SELECT * FROM count_weapon_skins;
+
+
+-- avg price per case item
+CREATE VIEW avg_case_values AS
+SELECT 
+    c.CaseName,
+    COUNT(si.SkinItemID) AS items_in_case,
+    AVG(mt.PriceUSD) AS avg_price
+FROM Cases c
+	INNER JOIN SkinItems si ON c.CaseID = si.CaseID
+	INNER JOIN MarketTransactions mt ON si.SkinItemID = mt.ItemID
+GROUP BY c.CaseName
+ORDER BY avg_price DESC;
+
+SELECT * FROM avg_case_values;
