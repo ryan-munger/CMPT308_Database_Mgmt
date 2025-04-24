@@ -22,14 +22,13 @@ ORDER BY transaction_count DESC;
 
 SELECT * FROM popular_skins;
 
-
 -- Top sellers and buyers
 CREATE VIEW top_market_users AS
 SELECT 
     'Seller' AS UserType,
     s.SellerID AS UserID,
     u.UserName,
-    s.TotalEarnedUSD AS TotalUSD,
+    s.TotalEarnedUSD AS TotalEarnedUSD,
     NULL AS TotalSpentUSD -- NULL col for buyers
 FROM Sellers s
 	INNER JOIN SteamUsers u ON s.SellerID = u.SteamID
@@ -38,11 +37,10 @@ SELECT
     'Buyer' AS UserType,
     b.BuyerID AS UserID,
     u.UserName,
-    NULL AS TotalEarnedUSD, -- Add a NULL column for sellers
-    b.TotalSpentUSD AS TotalUSD
+    NULL AS TotalEarnedUSD, -- NULL for buyers
+    b.TotalSpentUSD AS TotalSpentUSD
 FROM Buyers b
 	INNER JOIN SteamUsers u ON b.BuyerID = u.SteamID
-ORDER BY TotalUSD DESC
 LIMIT 10;
 
 SELECT * FROM top_market_users;
