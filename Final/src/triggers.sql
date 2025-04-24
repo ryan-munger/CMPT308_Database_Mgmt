@@ -85,6 +85,16 @@ BEGIN
     SET BalanceUSD = BalanceUSD - NEW.PriceUSD 
     WHERE SteamID = NEW.BuyerID;
 
+    -- Update total earned
+    UPDATE Sellers
+    SET TotalEarnedUSD = TotalEarnedUSD + ((NEW.PriceUSD / 1.15) - 0.01) 
+    WHERE SellerID = NEW.SellerID;
+
+    -- Update totalSpent
+    UPDATE SteamUsers
+    SET TotalSpentUSD = TotalSpentUSD + NEW.PriceUSD 
+    WHERE BuyerID = NEW.BuyerID;
+
     RETURN NEW;
 END;
 $$ 
@@ -99,7 +109,7 @@ EXECUTE FUNCTION transfer_balance();
 -- Fail due to funds
 INSERT INTO MarketTransactions (TransID, ItemID, BuyerID, SellerID, PriceUSD, ListedAt, SoldAt) VALUES
 (909, 707, 801, 805, 99999, '2025-04-10 18:00:00+00', '2025-04-11 10:30:00+00');
--- Move Funds
+-- Successful sale - move funds
 SELECT steamid, username, balanceUSD FROM SteamUsers; -- before
 INSERT INTO MarketTransactions (TransID, ItemID, BuyerID, SellerID, PriceUSD, ListedAt, SoldAt) VALUES
 (909, 707, 801, 805, 10, '2025-04-10 18:00:00+00', '2025-04-11 10:30:00+00');
