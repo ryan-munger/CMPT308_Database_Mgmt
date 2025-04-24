@@ -1,16 +1,16 @@
 -- Credit: Google Gemini generated this data, and then it was fixed + improved by me.
 
-INSERT INTO Operations (OperationID, OperationName, DateReleased) VALUES
-(1, 'Operation Breakout', '2014-07-01'),
-(2, 'Operation Vanguard', '2014-11-11'),
-(3, 'Operation Bloodhound', '2015-05-26'),
-(4, 'Operation Wildfire', '2016-02-17'),
-(5, 'Operation Hydra', '2017-05-23'),
-(6, 'Operation Shattered Web', '2019-11-18'),
-(7, 'Operation Broken Fang', '2020-12-03'),
-(8, 'Operation Riptide', '2021-09-21'),
-(9, 'Operation Recoil', '2022-07-01'),
-(10, 'Operation Anubis', '2023-04-25');
+INSERT INTO Operations (OperationID, OperationName, DateReleased, DateEnded) VALUES
+(1, 'Operation Breakout', '2014-07-01', '2014-10-02'),
+(2, 'Operation Vanguard', '2014-11-11', '2015-03-31'),
+(3, 'Operation Bloodhound', '2015-05-26', '2015-09-30'),
+(4, 'Operation Wildfire', '2016-02-17', '2016-07-15'),
+(5, 'Operation Hydra', '2017-05-23', '2017-11-13'),
+(6, 'Operation Shattered Web', '2019-11-18', '2020-03-31'),
+(7, 'Operation Broken Fang', '2020-12-03', '2021-05-03'),
+(8, 'Operation Riptide', '2021-09-21', '2022-02-22'),
+(9, 'Operation Recoil', '2022-07-01', '2022-11-16'),
+(10, 'Operation Anubis', '2023-04-25', '2023-10-02');
 
 -- Cases table
 INSERT INTO Cases (CaseID, CaseName, OperationID) VALUES

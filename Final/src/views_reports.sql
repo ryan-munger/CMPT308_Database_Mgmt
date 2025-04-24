@@ -118,3 +118,25 @@ GROUP BY c.CaseName
 ORDER BY avg_price DESC;
 
 SELECT * FROM avg_case_values;
+
+
+-- Operation Success Metrics
+CREATE VIEW operation_metrics AS
+SELECT 
+    o.OperationName AS Op_Name,
+    o.DateReleased AS Date_Release,
+	o.DateEnded AS Date_End,
+    COUNT(DISTINCT c.CaseID) AS cases_released,
+    COUNT(DISTINCT si.SkinItemID) AS unique_skins,
+    COUNT(DISTINCT mt.TransID) AS total_transactions,
+    SUM(mt.PriceUSD) AS total_market_volume,
+    SUM(mt.PriceUSD) / COUNT(DISTINCT mt.TransID) AS avg_transaction_value,
+    COUNT(DISTINCT mt.TransID) /  (o.dateEnded - o.dateReleased) AS transactions_per_day
+FROM Operations o
+	LEFT OUTER JOIN Cases c ON o.OperationID = c.OperationID
+	LEFT OUTER JOIN SkinItems si ON c.CaseID = si.CaseID
+	LEFT OUTER JOIN MarketTransactions mt ON si.SkinItemID = mt.ItemID
+GROUP BY o.OperationID, o.OperationName, o.DateReleased
+ORDER BY o.DateReleased DESC; 
+
+SELECT * FROM operation_metrics;
