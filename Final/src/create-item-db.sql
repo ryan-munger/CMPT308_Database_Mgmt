@@ -129,7 +129,7 @@ CREATE TABLE SteamUsers (
 -- Inventories table
 CREATE TABLE Inventories (
     SteamID INT,
-    SkinItemID INT,
+    SkinItemID INT UNIQUE, -- Only one person can own an item at a time
     AcquiredAt TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (SteamID, SkinItemID),
     FOREIGN KEY (SteamID) REFERENCES SteamUsers(SteamID),
@@ -172,5 +172,6 @@ CREATE TABLE MarketTransactions (
     SoldAt TIMESTAMP WITH TIME ZONE CHECK (SoldAt >= ListedAt),
     FOREIGN KEY (ItemID) REFERENCES SkinItems(SkinItemID),
     FOREIGN KEY (BuyerID) REFERENCES Buyers(BuyerID),
-    FOREIGN KEY (SellerID) REFERENCES Sellers(SellerID)
+    FOREIGN KEY (SellerID) REFERENCES Sellers(SellerID),
+    CHECK (BuyerID != SellerID) -- selling to yourself? 
 );
