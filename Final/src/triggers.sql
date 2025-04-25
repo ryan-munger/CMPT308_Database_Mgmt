@@ -44,7 +44,7 @@ $$
 LANGUAGE plpgsql;
 
 CREATE TRIGGER update_inventories_trigger
-AFTER UPDATE ON MarketTransactions
+AFTER INSERT OR UPDATE ON MarketTransactions
 FOR EACH ROW
 WHEN (OLD.BuyerID IS NULL AND NEW.BuyerID IS NOT NULL AND OLD.SoldAt IS NULL AND NEW.SoldAt IS NOT NULL)
 EXECUTE FUNCTION transfer_ownership();
