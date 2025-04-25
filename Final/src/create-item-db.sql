@@ -107,7 +107,7 @@ CREATE TABLE SkinItems (
 
 -- SkinItemStickers table
 CREATE TABLE SkinItemStickers (
-    StickerID INT,
+    StickerID INT UNIQUE, -- a sticker can only be applied to one item
     SkinItemID INT,
     Slot INT CHECK (Slot BETWEEN 0 AND 4),
     ScrapeWear TEXT CHECK (ScrapeWear IN ('Pristine', 'Scratched', 'Worn', 'Damaged')),
