@@ -15,6 +15,7 @@ END;
 $$ 
 LANGUAGE plpgsql;
 
+DROP TRIGGER IF EXISTS check_ownership ON MarketTransactions;
 CREATE TRIGGER check_ownership
 BEFORE INSERT ON MarketTransactions
 FOR EACH ROW
@@ -24,17 +25,19 @@ EXECUTE FUNCTION ensure_ownership_before_listing();
 INSERT INTO MarketTransactions (TransID, ItemID, BuyerID, SellerID, PriceUSD, ListedAt, SoldAt) VALUES
 (901, 701, NULL, 802, 45.50, '2025-04-10 18:00:00+00', NULL);
 
--- Transfer item ownership on purchase
+-- Function to transfer ownership on sale
 CREATE OR REPLACE FUNCTION transfer_ownership()
 RETURNS TRIGGER AS 
 $$
 BEGIN
+    -- Only run if the transaction has a buyer and a sale time
+    -- No inventory exchange for an unsold listing
     IF NEW.BuyerID IS NOT NULL AND NEW.SoldAt IS NOT NULL THEN
-        -- Remove item from seller's inventory
+        -- Remove from seller's inventory
         DELETE FROM Inventories
         WHERE SteamID = OLD.SellerID AND SkinItemID = OLD.ItemID;
-
-        -- Add item to buyer's inventory
+        
+        -- Insert into buyer's inventory
         INSERT INTO Inventories (SteamID, SkinItemID, AcquiredAt)
         VALUES (NEW.BuyerID, NEW.ItemID, NEW.SoldAt);
     END IF;
@@ -43,10 +46,11 @@ END;
 $$ 
 LANGUAGE plpgsql;
 
+DROP TRIGGER IF EXISTS update_inventories_trigger ON MarketTransactions;
 CREATE TRIGGER update_inventories_trigger
 AFTER INSERT OR UPDATE ON MarketTransactions
 FOR EACH ROW
-WHEN (OLD.BuyerID IS NULL AND NEW.BuyerID IS NOT NULL AND OLD.SoldAt IS NULL AND NEW.SoldAt IS NOT NULL)
+WHEN (NEW.BuyerID IS NOT NULL AND NEW.SoldAt IS NOT NULL)
 EXECUTE FUNCTION transfer_ownership();
 
 -- Test
@@ -91,7 +95,7 @@ BEGIN
     WHERE SellerID = NEW.SellerID;
 
     -- Update totalSpent
-    UPDATE SteamUsers
+    UPDATE Buyers
     SET TotalSpentUSD = TotalSpentUSD + NEW.PriceUSD 
     WHERE BuyerID = NEW.BuyerID;
 
@@ -100,6 +104,7 @@ END;
 $$ 
 LANGUAGE plpgsql;
 
+DROP TRIGGER IF EXISTS transfer_funds ON MarketTransactions;
 CREATE TRIGGER transfer_funds
 BEFORE INSERT OR UPDATE ON MarketTransactions
 FOR EACH ROW
@@ -133,6 +138,7 @@ END;
 $$ 
 LANGUAGE plpgsql;
 
+DROP TRIGGER IF EXISTS check_duplicate_friendships ON Friendships;
 CREATE TRIGGER check_duplicate_friendships
 BEFORE INSERT ON Friendships
 FOR EACH ROW
