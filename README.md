@@ -1,21 +1,44 @@
-# CMPT308_Database_Mgmt
+# Database Management
 
-# If you are browsing in Git, the markdown file is reccomended for viewing. Otherwise, all writeups are available as a pdf. 
+If you are browsing in GitHub, the markdown file is recommended for viewing. Otherwise, all writeups are also available as a pdf. 
 
-# In this course I hope to:
+# Content
+This repository contains projects pertaining to the fundamental areas of database management such as:
+* Entity Relationship Diagrams
+* SQL
+  * Queries
+  * Views
+  * Stored Procedures
+  * Indexes
+  * Triggers
+  * Security (Users, Groups, Grant/Revoke)
+  * Create Statements
+* Normalization (Up to BCNF!)
+* Database Design & Administration
+* Relational & Graph Databases
 
-* Come to understand that data has value, and the right answer is
+## Final Project
+My final project in this course was to design a database for the CounterStrike item marketplace.
+![ERD](Final/ER-Diagram-Cropped.png)
+  
+
+
+
+
+# In this course I:
+
+* Came to understand that data has value, and the right answer is
 infinitely better than a fast answer.
-* Reach a solid knowledge of and appreciation for principles and
+* Reached a solid knowledge of and appreciation for principles and
 foundations of relational and graph database systems.
-* Gain an understanding of relational database concepts, terminology,
+* Gained an understanding of relational database concepts, terminology,
 and their superiority over NoSQL garbage like document stores.
-* Attain in-depth knowledge of the relational data model and why it’s
+* Attained in-depth knowledge of the relational data model and why it’s
 superior to other data models in general, and will remain so.
-* Appreciate, understand, use, and bask in awe of SQL.
-* Appreciate, understand, and bask in awe of graphs.
-* Design, implement, test, and document a BCNF relational database.
-* Discuss and use new database technology.
-* Come to know some modern graph data techniques and technologies
-* Develop continuing education skills. Capable problem solvers never
+* Appreciated, understood, used, and basked in awe of SQL.
+* Appreciated, understood, and basked in awe of graphs.
+* Designed, implemented, tested, and documented a BCNF relational database.
+* Discussed and used new database technology.
+* Came to know some modern graph data techniques and technologies
+* Developed continuing education skills. Capable problem solvers never
 stop learning. 
